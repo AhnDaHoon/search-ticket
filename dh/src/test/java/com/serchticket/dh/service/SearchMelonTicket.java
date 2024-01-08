@@ -26,12 +26,12 @@ public class SearchMelonTicket implements SearchTicket{
             Document document = Jsoup.connect(connectionUrl).get();
 
             // 필요한 정보를 포함하는 HTML 요소 선택
-            Elements trs = document.select(".tbl_style02 tbody tr");
+            Elements elements = document.select(".tbl_style02 tbody tr");
 
             // 선택한 요소에서 필요한 데이터 추출
-            Elements showInfo = trs.select(".show_infor");
-            Elements showLoc = trs.select("td.show_loc");
-            Elements showDate = trs.select("td.show_date");
+            Elements showInfo = elements.select(".show_infor");
+            Elements showLoc = elements.select("td.show_loc");
+            Elements showDate = elements.select("td.show_date");
 
             for (int i = 0; i < showLoc.size(); i++) {
                 String img = showInfo.get(i).select("div > a > img").attr("src");

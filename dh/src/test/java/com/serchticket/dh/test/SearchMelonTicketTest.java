@@ -53,28 +53,24 @@ public class SearchMelonTicketTest {
     }
 
     @Test
-    void tbody_추출_실패(){
+    void 데이터_영역_추출_실패(){
         try {
-            // Jsoup을 사용하여 웹 페이지 가져오기
             Document document = Jsoup.connect(connectMelonUrl).get();
 
-            // 필요한 정보를 포함하는 HTML 요소 선택
-            Elements trs = document.select(".tbl_style02 tbody zxczxc");
-            assertFalse(trs.text().length() > 0);
+            Elements elements = document.select(".tbl_style02 tbody zxczxc");
+            assertFalse(elements.text().length() > 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    void tbody_추출_성공(){
+    void 데이터_영역_추출_성공(){
         try {
-            // Jsoup을 사용하여 웹 페이지 가져오기
             Document document = Jsoup.connect(connectMelonUrl).get();
 
-            // 필요한 정보를 포함하는 HTML 요소 선택
-            Elements trs = document.select(".tbl_style02 tbody tr");
-            assertTrue(trs.text().length() > 0);
+            Elements elements = document.select(".tbl_style02 tbody tr");
+            assertTrue(elements.text().length() > 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
