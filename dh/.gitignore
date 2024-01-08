@@ -41,7 +41,7 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-.idea
+**.idea
 gradlew.bat
 settings.gradle
 gradle**
