@@ -4,6 +4,7 @@ import com.serchticket.dh.model.SearchResponse;
 import com.serchticket.dh.service.SearchMelonTicket;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -78,7 +80,50 @@ public class SearchMelonTicketTest {
 
     @Test
     void 필요_정보_추출_성공(){
-        List<SearchResponse> searchResponseList = searchMelonTicket.search(searchText);
+        List<SearchResponse> searchResponseList = new ArrayList<>();
+        try {
+            // Jsoup을 사용하여 웹 페이지 가져오기
+            Document document = Jsoup.connect(connectMelonUrl).get();
+
+            // 필요한 정보를 포함하는 HTML 요소 선택
+            Elements elements = document.select(".tbl_style02 tbody tr");
+
+            // 선택한 요소에서 필요한 데이터 추출
+            Elements showInfo = elements.select(".show_infor");
+            Elements showLoc = elements.select("td.show_loc");
+            Elements showDate = elements.select("td.show_date");
+
+            for (int i = 0; i < showLoc.size(); i++) {
+                String img = showInfo.get(i).select("div > a > img").attr("src");
+                String icon = showInfo.get(i).select(".ico_list ").text();
+                String url = showInfo.get(i).select(".infor_text > a").attr("href").substring(2); // ..잘라주고 웹 페이지에서 https://ticket.melon.com를 붙여줌
+                String title = showInfo.get(i).select(".show_title").text();
+                String loc = showLoc.get(i).text();
+                String date = showDate.get(i).text();
+
+                String startDate = "";
+                String endDate = "";
+                if(date.contains("-")){
+                    String[] dateArr = date.split(" - ");
+                    startDate = dateArr[0];
+                    endDate = dateArr[1];
+                }else{
+                    startDate = date;
+                    endDate = "";
+                }
+
+                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate, endDate));
+            }
+
+            for (SearchResponse searchResponse : searchResponseList) {
+                System.out.println("searchResponse.stateDate() = " + searchResponse.stateDate());
+                System.out.println("searchResponse.endDate() = " + searchResponse.endDate());
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("searchResponseList.size() = " + searchResponseList.size());
         assertTrue(searchResponseList.size() > 0);
     }

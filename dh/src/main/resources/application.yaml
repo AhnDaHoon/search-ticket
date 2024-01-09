@@ -1,5 +1,5 @@
 melon:
-  url: https://ticket.melon.com/search/index.htm?q=
+  url: "https://ticket.melon.com/search/index.htm?q="
 
 interpark:
   first-url: "https://tickets.interpark.com/contents/search?keyword="

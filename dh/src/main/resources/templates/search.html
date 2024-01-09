@@ -1,0 +1,54 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" th:href="@{/css/search.css}"/>
+</head>
+<body>
+	<main class="flex flex-col items-center justify-center min-h-screen py-2">
+	  <div class="flex flex-col items-center justify-center sm:flex-row sm:items-start sm:justify-between w-full max-w-4xl p-4">
+		<div class="flex flex-col items-center justify-center sm:items-start">
+		  <h1 class="text-4xl font-bold mb-4">인터파크 티켓 or 멜론 티켓 검색 사이트 입니다.</h1>
+		  <p class="text-lg text-gray-600 dark:text-gray-400">현재 기능은 검색 기능밖에 없습니다.
+			<div class="w-full max-w-4xl mx-auto mt-8">
+			  <input
+				class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full mb-8"
+				placeholder="찾으실 티켓을 입력하신 후 엔터를 눌러주세요."
+				th:value="${searchText}"
+			  />
+				<p class="text-sm font-bold" th:text="|찾은 티켓 갯수: ${interpark.size()}|"></p>
+			</div>
+			<div class="w-full max-w-4xl mx-auto mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+			  <section th:each="data : ${interpark}">
+				<h2 class="text-2xl font-bold mb-4"></h2>
+				<div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+				  <div class="p-6 flex flex-col items-center text-center">
+					<img
+					  alt="Event 1"
+					  class="mb-4 rounded-full"
+					  height="200"
+					  width="200"
+					  style="aspect-ratio: 200 / 200; object-fit: cover;"
+					  th:src="|https://tickets.interpark.com/${data.img}|"
+					/>
+					<h3 class="text-xl font-bold margin-bottom-5rem" th:text="${data.title}"></h3>
+					<h4 class="text-gray-600 font-bold margin-bottom-5rem" th:text="${data.loc}"></h4>
+					  <th:block th:if="${#strings.isEmpty(data.endDate)}">
+							<p class="text-gray-600 dark:text-gray-400 margin-bottom-5rem" th:text="${data.stateDate}"></p>
+					  </th:block>
+					  <th:block th:unless="${#strings.isEmpty(data.endDate)}">
+						  <p class="text-gray-600 dark:text-gray-400 margin-bottom-5rem" th:text="|${data.stateDate} ~ ${data.endDate}|"></p>
+					  </th:block>
+					<a class="url-button" th:href="|https://tickets.interpark.com/goods/${data.url}|" target="_blank">	티켓 구매 페이지로 이동하기</a>
+				  </div>
+				</div>
+			  </section>
+			</div>
+		  </p>
+		</div>
+	  </div>
+	</main>
+</body>
+</html>

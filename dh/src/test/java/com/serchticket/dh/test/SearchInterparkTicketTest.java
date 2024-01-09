@@ -81,12 +81,29 @@ public class SearchInterparkTicketTest {
 
             for (int i = 0; i < elements.size(); i++) {
                 String url = "https://tickets.interpark.com/goods/"+elements.get(i).attr("data-prd-no");
-                String img = elements.get(i).select("img").attr("src"); // 웹 페이지에서 https://tickets.interpark.com/를 붙여줌
+                String img = elements.get(i).select("img").attr("src"); // 웹 페이지에서 를 붙여줌
                 String title = elements.get(i).select(".result-ticket_goodsName__vbwnM").text();
                 String loc = elements.get(i).select(".result-ticket_placeName__viaLo").text();
+
                 String date = elements.get(i).select(".result-ticket_playDate__xHIcA").text();
+                String startDate = "";
+                String endDate = "";
+
+                // 기존 endDate 6.29 -> 수정 endDate 2023.6.29
+                if(date.contains("~")){
+                    String[] dateArr = date.split(" ~ ");
+                    startDate = dateArr[0];
+                    endDate = dateArr[1];
+                    if(!endDate.contains("20")){
+                        endDate = startDate.substring(0, 4)+"."+endDate;
+                    }
+                }else{
+                    startDate = date;
+                    endDate = "";
+                }
+
                 String icon = "";
-                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, date));
+                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate, endDate));
             }
 
             assertTrue(elements.size() == searchResponseList.size());
