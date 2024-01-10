@@ -1,9 +1,8 @@
 package com.serchticket.dh.test;
 
-import com.serchticket.dh.model.SearchResponse;
+import com.serchticket.dh.model.SearchResponseTest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +71,7 @@ public class SearchInterparkTicketTest {
 
     @Test
     void 필요_정보_추출_성공(){
-        List<SearchResponse> searchResponseList = new ArrayList<>();
+        List<SearchResponseTest> searchResponseTestList = new ArrayList<>();
         try {
             Document document = Jsoup.connect(connectInterparkUrl).get();
 
@@ -80,8 +79,8 @@ public class SearchInterparkTicketTest {
             System.out.println("elements = " + elements.size());
 
             for (int i = 0; i < elements.size(); i++) {
-                String url = "https://tickets.interpark.com/goods/"+elements.get(i).attr("data-prd-no");
-                String img = elements.get(i).select("img").attr("src"); // 웹 페이지에서 를 붙여줌
+                String img = "https://tickets.interpark.com/" + elements.get(i).select("img").attr("src"); // 웹 페이지에서 를 붙여줌
+                String url = "https://tickets.interpark.com/goods/" + elements.get(i).attr("data-prd-no");
                 String title = elements.get(i).select(".result-ticket_goodsName__vbwnM").text();
                 String loc = elements.get(i).select(".result-ticket_placeName__viaLo").text();
 
@@ -89,13 +88,13 @@ public class SearchInterparkTicketTest {
                 String startDate = "";
                 String endDate = "";
 
-                // 기존 endDate 6.29 -> 수정 endDate 2023.6.29
+                // 기존 endDate 6.29 -> 수정 endDate ~ 2023.6.29
                 if(date.contains("~")){
                     String[] dateArr = date.split(" ~ ");
                     startDate = dateArr[0];
                     endDate = dateArr[1];
                     if(!endDate.contains("20")){
-                        endDate = startDate.substring(0, 4)+"."+endDate;
+                        endDate = " ~ " + startDate.substring(0, 4)+"."+endDate;
                     }
                 }else{
                     startDate = date;
@@ -103,15 +102,20 @@ public class SearchInterparkTicketTest {
                 }
 
                 String icon = "";
-                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate, endDate));
+                searchResponseTestList.add(new SearchResponseTest(img, icon, url, title, loc, startDate + endDate));
             }
 
-            assertTrue(elements.size() == searchResponseList.size());
+            for (SearchResponseTest searchResponseTest : searchResponseTestList) {
+                System.out.println("searchResponse.stateDate() = " + searchResponseTest.img());
+                System.out.println("searchResponse.stateDate() = " + searchResponseTest.url());
+            }
+
+            assertTrue(elements.size() == searchResponseTestList.size());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("searchResponseList.size() = " + searchResponseList.size());
+        System.out.println("searchResponseList.size() = " + searchResponseTestList.size());
 
     }
 }

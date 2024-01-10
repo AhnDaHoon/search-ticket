@@ -1,6 +1,6 @@
 package com.serchticket.dh.service;
 
-import com.serchticket.dh.model.SearchResponse;
+import com.serchticket.dh.model.SearchResponseTest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SearchMelonTicket implements SearchTicket{
+public class SearchMelonTicketTest implements SearchTicketTest {
 
     @Value("${melon.url}")
     private String url;
 
     @Override
-    public List<SearchResponse> search(String searchText) {
+    public List<SearchResponseTest> search(String searchText) {
         String connectionUrl = url + searchText;
-        List<SearchResponse> searchResponseList = new ArrayList<>();
+        List<SearchResponseTest> searchResponseTestList = new ArrayList<>();
         try {
             // Jsoup을 사용하여 웹 페이지 가져오기
             Document document = Jsoup.connect(connectionUrl).get();
@@ -36,29 +36,29 @@ public class SearchMelonTicket implements SearchTicket{
             for (int i = 0; i < showLoc.size(); i++) {
                 String img = showInfo.get(i).select("div > a > img").attr("src");
                 String icon = showInfo.get(i).select(".ico_list ").text();
-                String url = showInfo.get(i).select(".infor_text > a").attr("href").substring(2); // ..잘라주고 웹 페이지에서 https://ticket.melon.com를 붙여줌
+                String url = "https://ticket.melon.com" + showInfo.get(i).select(".infor_text > a").attr("href").substring(2);
                 String title = showInfo.get(i).select(".show_title").text();
                 String loc = showLoc.get(i).text();
-                String date = showDate.get(i).text();
 
+                String date = showDate.get(i).text();
                 String startDate = "";
                 String endDate = "";
                 if(date.contains("-")){
                     String[] dateArr = date.split(" - ");
                     startDate = dateArr[0];
-                    endDate = dateArr[1];
+                    endDate = " ~ " + dateArr[1];
                 }else{
                     startDate = date;
                     endDate = "";
                 }
 
-                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate, endDate));
+                searchResponseTestList.add(new SearchResponseTest(img, icon, url, title, loc, startDate + endDate));
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return searchResponseList;
+        return searchResponseTestList;
     }
 }

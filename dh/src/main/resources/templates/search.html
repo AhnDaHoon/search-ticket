@@ -7,6 +7,12 @@
 	<link rel="stylesheet" th:href="@{/css/search.css}"/>
 </head>
 <body>
+	<header class="bg-[#50c878] p-4">
+		<div class="flex justify-between items-center max-w-6xl mx-auto">
+			<h1 class="text-3xl font-bold text-white">Search Ticket</h1>
+			<div class="text-white">로그인 | 회원가입 | 고객센터 | 이벤트 | For U | LANGUAGE</div>
+		</div>
+	</header>
 	<main class="flex flex-col items-center justify-center min-h-screen py-2">
 	  <div class="flex flex-col items-center justify-center sm:flex-row sm:items-start sm:justify-between w-full max-w-4xl p-4">
 		<div class="flex flex-col items-center justify-center sm:items-start">
@@ -18,11 +24,11 @@
 				placeholder="찾으실 티켓을 입력하신 후 엔터를 눌러주세요."
 				th:value="${searchText}"
 			  />
-				<p class="text-sm font-bold" th:text="|찾은 티켓 갯수: ${interpark.size()}|"></p>
+				<p class="text-sm font-bold" th:text="|찾은 티켓 갯수: ${dataList.size()}|"></p>
 			</div>
 			<div class="w-full max-w-4xl mx-auto mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-			  <section th:each="data : ${interpark}">
-				<h2 class="text-2xl font-bold mb-4"></h2>
+			  <section th:each="data : ${dataList}">
+				<h2 class="text-2xl font-bold mb-4">판매종료</h2>
 				<div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
 				  <div class="p-6 flex flex-col items-center text-center">
 					<img
@@ -31,17 +37,12 @@
 					  height="200"
 					  width="200"
 					  style="aspect-ratio: 200 / 200; object-fit: cover;"
-					  th:src="|https://tickets.interpark.com/${data.img}|"
+					  th:src="${data.img}"
 					/>
 					<h3 class="text-xl font-bold margin-bottom-5rem" th:text="${data.title}"></h3>
 					<h4 class="text-gray-600 font-bold margin-bottom-5rem" th:text="${data.loc}"></h4>
-					  <th:block th:if="${#strings.isEmpty(data.endDate)}">
-							<p class="text-gray-600 dark:text-gray-400 margin-bottom-5rem" th:text="${data.stateDate}"></p>
-					  </th:block>
-					  <th:block th:unless="${#strings.isEmpty(data.endDate)}">
-						  <p class="text-gray-600 dark:text-gray-400 margin-bottom-5rem" th:text="|${data.stateDate} ~ ${data.endDate}|"></p>
-					  </th:block>
-					<a class="url-button" th:href="|https://tickets.interpark.com/goods/${data.url}|" target="_blank">	티켓 구매 페이지로 이동하기</a>
+					  <p class="text-gray-600 dark:text-gray-400 margin-bottom-5rem" th:text="${data.date}"></p>
+					<a class="url-button" th:href="${data.url}" target="_blank">	티켓 구매 페이지로 이동하기</a>
 				  </div>
 				</div>
 			  </section>
@@ -50,5 +51,17 @@
 		</div>
 	  </div>
 	</main>
+	<footer class="bg-gray-100 p-4 mt-8">
+		<div class="max-w-6xl mx-auto text-sm">
+			<div class="grid grid-cols-3 gap-8">
+				<div class="text-center">
+					<a href="https://github.com/AhnDaHoon/search-ticket" target="_blank">github: https://github.com/AhnDaHoon/search-ticket</a>
+				</div>
+				<div class="text-right">
+					<a href="mailto:psycn@kakao.com">이메일(psycn@kakao.com)</a>
+				</div>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>

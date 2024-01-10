@@ -36,23 +36,23 @@ public class SearchMelonTicket implements SearchTicket{
             for (int i = 0; i < showLoc.size(); i++) {
                 String img = showInfo.get(i).select("div > a > img").attr("src");
                 String icon = showInfo.get(i).select(".ico_list ").text();
-                String url = showInfo.get(i).select(".infor_text > a").attr("href").substring(2); // ..잘라주고 웹 페이지에서 https://ticket.melon.com를 붙여줌
+                String url = "https://ticket.melon.com" + showInfo.get(i).select(".infor_text > a").attr("href").substring(2);
                 String title = showInfo.get(i).select(".show_title").text();
                 String loc = showLoc.get(i).text();
-                String date = showDate.get(i).text();
 
+                String date = showDate.get(i).text();
                 String startDate = "";
                 String endDate = "";
                 if(date.contains("-")){
                     String[] dateArr = date.split(" - ");
                     startDate = dateArr[0];
-                    endDate = dateArr[1];
+                    endDate = " ~ " + dateArr[1];
                 }else{
                     startDate = date;
                     endDate = "";
                 }
 
-                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate, endDate));
+                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate + endDate));
             }
 
 

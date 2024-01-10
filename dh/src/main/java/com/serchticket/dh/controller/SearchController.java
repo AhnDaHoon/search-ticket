@@ -23,13 +23,14 @@ public class SearchController {
         System.out.println("searchText = " + searchText);
         if(searchText != null){
             if(searchType.equals("interpark")){
-                model.addAttribute("interpark", searchInterparkTicket.search(searchText));
+                model.addAttribute("dataList", searchInterparkTicket.search(searchText));
             }else if(searchType.equals("melon")){
-                model.addAttribute("melon", searchMelonTicket.search(searchText));
+                model.addAttribute("dataList", searchMelonTicket.search(searchText));
             }else{
                 // 인터파크 멜론티켓 합친거
             }
             model.addAttribute("searchText", searchText);
+            model.addAttribute("searchType", searchText);
         }
         return "search";
     }
