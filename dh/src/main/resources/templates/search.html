@@ -10,7 +10,15 @@
 	<header class="bg-[#50c878] p-4">
 		<div class="flex justify-between items-center max-w-6xl mx-auto">
 			<h1 class="text-3xl font-bold text-white">Search Ticket</h1>
-			<div class="text-white">로그인 | 회원가입 | 고객센터 | 이벤트 | For U | LANGUAGE</div>
+			<div class="text-white">
+				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=all|" style="border-radius: 5px; background-color: black; margin: 0.8rem, 0.8rem;">All</a>
+			</div>
+			<div class="text-white">
+				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=interpark|" className="w-full">Interpark</a>
+			</div>
+			<div class="text-white">
+				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=melon|">Melon</a>
+			</div>
 		</div>
 	</header>
 	<main class="flex flex-col items-center justify-center min-h-screen py-2">

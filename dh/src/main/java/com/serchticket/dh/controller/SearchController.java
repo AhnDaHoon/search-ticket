@@ -30,7 +30,7 @@ public class SearchController {
                 // 인터파크 멜론티켓 합친거
             }
             model.addAttribute("searchText", searchText);
-            model.addAttribute("searchType", searchText);
+            model.addAttribute("searchType", searchType);
         }
         return "search";
     }
