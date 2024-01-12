@@ -52,7 +52,7 @@ public class SearchMelonTicketTest implements SearchTicketTest {
                     endDate = "";
                 }
 
-                searchResponseTestList.add(new SearchResponseTest(img, icon, url, title, loc, startDate + endDate));
+                searchResponseTestList.add(new SearchResponseTest("Melon", img, icon, url, title, loc, startDate, startDate + endDate));
             }
 
 

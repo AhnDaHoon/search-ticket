@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class SearchMelonTicketTest {
+public class SearchMelonTicketTestCode {
     @Value("${melon.url}")
     private String melonUrl;
     private String searchText = "박효신";
@@ -110,7 +110,7 @@ public class SearchMelonTicketTest {
                     endDate = "";
                 }
 
-                searchResponseTestList.add(new SearchResponseTest(img, icon, url, title, loc, startDate + endDate));
+                searchResponseTestList.add(new SearchResponseTest("Melon", img, icon, url, title, loc, startDate, startDate + endDate));
             }
 
             for (SearchResponseTest searchResponseTest : searchResponseTestList) {

@@ -42,21 +42,27 @@ public class SearchInterparkTicketTest implements SearchTicketTest {
                 String startDate = "";
                 String endDate = "";
 
-                // 기존 endDate 6.29 -> 수정 endDate ~ 2023.6.29
-                if(date.contains("~")){
+                // 기존 endDate 6.29 -> 수정 endDate ~ 2023.06.29
+                if(date.contains("~")) {
                     String[] dateArr = date.split(" ~ ");
-                    startDate = dateArr[0];
+                    startDate = parseMonthOrDay(dateArr[0]);
                     endDate = dateArr[1];
-                    if(!endDate.contains("20")){
-                        endDate = " ~ " + startDate.substring(0, 4)+"."+endDate;
+
+                    // endDate에 년도가 없을 때
+                    if(endDate.length() < 6){
+                        endDate = " ~ " + parseMonthOrDay(startDate.substring(0, 4)+"."+endDate);
+                    }else if(endDate.length() > 6){  // endDate에 년도가 있을 때
+                        endDate = " ~ " + parseMonthOrDay(endDate);
                     }
+                    // 월, 일에 0붙이기 2023.6.1 -> 2023.06.01
+
                 }else{
-                    startDate = date;
+                    startDate = parseMonthOrDay(date);;
                     endDate = "";
                 }
 
                 String icon = "";
-                searchResponseTestList.add(new SearchResponseTest(img, icon, url, title, loc, startDate + endDate));
+                searchResponseTestList.add(new SearchResponseTest("Interpark", img, icon, url, title, loc, startDate, startDate + endDate));
             }
 
         } catch (IOException e) {
@@ -64,5 +70,22 @@ public class SearchInterparkTicketTest implements SearchTicketTest {
         }
 
         return searchResponseTestList;
+    }
+
+    public String parseMonthOrDay(String date){
+        String[] split = date.split("\\.");
+        StringBuffer result = new StringBuffer();
+
+        for (String s : split) {
+            if(s.length() == 1){
+                result.append(".0"+s);
+            }else if(s.length() == 2){
+                result.append("."+s);
+            }else if(s.length() == 4){
+                result.append(s);
+            }
+        }
+
+        return result.toString();
     }
 }

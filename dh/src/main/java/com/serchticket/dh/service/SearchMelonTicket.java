@@ -52,7 +52,7 @@ public class SearchMelonTicket implements SearchTicket{
                     endDate = "";
                 }
 
-                searchResponseList.add(new SearchResponse(img, icon, url, title, loc, startDate + endDate));
+                searchResponseList.add(new SearchResponse("Melon", img, icon, url, title, loc, startDate, startDate + endDate));
             }
 
 
