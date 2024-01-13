@@ -28,7 +28,6 @@ public class SearchInterparkTicket implements SearchTicket {
             Document document = Jsoup.connect(connectionUrl).get();
 
             Elements elements = document.select(".result-ticket_listWrapper__xcEo3 a");
-            System.out.println("elements = " + elements.size());
 
             for (int i = 0; i < elements.size(); i++) {
                 String img = "https://tickets.interpark.com/" + elements.get(i).select("img").attr("src"); // 웹 페이지에서 를 붙여줌
