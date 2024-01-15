@@ -11,21 +11,21 @@
 		<div class="flex justify-between items-center max-w-6xl mx-auto">
 			<h1 class="text-3xl font-bold text-white">Search Ticket</h1>
 			<div class="text-white">
-				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=all|" style="border-radius: 5px; background-color: black; margin: 0.8rem, 0.8rem;">All</a>
+				<button th:onclick="|window.location.href='@{/search(searchText=${searchText})}&searchType=all'|" th:class="${searchType == 'all'} ? 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' : 'button-active bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'">All</button >
 			</div>
 			<div class="text-white">
-				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=interpark|" className="w-full">Interpark</a>
+				<button th:onclick="|window.location.href='@{/search(searchText=${searchText})}&searchType=interpark'|" th:class="${searchType == 'interpark'} ? 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' : 'button-active bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'">Interpark</button>
 			</div>
 			<div class="text-white">
-				<a th:href="|http://localhost:8080/search?searchText=${searchText}&searchType=melon|">Melon</a>
+				<button th:onclick="|window.location.href='@{/search(searchText=${searchText})}&searchType=melon'|" th:class="${searchType == 'melon'} ? 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' : 'button-active bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'">Melon</button>
 			</div>
 		</div>
 	</header>
 	<main class="flex flex-col items-center justify-center min-h-screen py-2">
 	  <div class="flex flex-col items-center justify-center sm:flex-row sm:items-start sm:justify-between w-full max-w-4xl p-4">
 		<div class="flex flex-col items-center justify-center sm:items-start">
-		  <h1 class="text-4xl font-bold mb-4">인터파크 티켓 or 멜론 티켓 검색 사이트 입니다.</h1>
-		  <p class="text-lg text-gray-600 dark:text-gray-400">현재 기능은 검색 기능밖에 없습니다.
+		  <h1 class="text-4xl font-bold mb-4"></h1>
+		  <p class="text-lg text-gray-600 dark:text-gray-400">
 			<div class="w-full max-w-4xl mx-auto mt-8">
 			  <input
 				class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full mb-8"
@@ -36,7 +36,7 @@
 			</div>
 			<div class="w-full max-w-4xl mx-auto mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 			  <section th:each="data : ${dataList}">
-				<h2 class="text-2xl font-bold mb-4" th:text="${data.type}"></h2>
+				<h2 class="text-2xl font-bold mb-4" th:text="${data.type}" th:style="${data.type == 'Melon' ? 'color:green' : 'color:purple'}"></h2>
 				<div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
 				  <div class="p-6 flex flex-col items-center text-center">
 					<img
